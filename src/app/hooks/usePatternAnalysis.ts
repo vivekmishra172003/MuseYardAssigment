@@ -23,8 +23,12 @@ export function usePatternAnalysis() {
           setMessages(parsedMessages);
           
           // Perform analysis
-          const detectedPatterns = analyzeContent(parsedMessages);
-          setPatterns(detectedPatterns);
+          analyzeContent(parsedMessages).then(detectedPatterns => {
+            setPatterns(detectedPatterns);
+          }).catch(err => {
+            setError('Failed to analyze messages');
+            console.error(err);
+          });
         } else {
           setError('No chat messages found');
         }
